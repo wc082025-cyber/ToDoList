@@ -5,10 +5,11 @@
 //  Created by Chris Wahlberg on 19/02/2026.
 //
 
-// CategoryDetailView.swift
+// the design of the categories
  import SwiftUI
 
 struct CategoryDetailView: View {
+    // @stateObject is  the owner of the data. @ObservedObject os the GUEST. Tells to look at the ToDoStore code and using the data there
     @ObservedObject var store: ToDoStore
     var categoryId: UUID
     
@@ -45,14 +46,15 @@ struct CategoryDetailView: View {
                                     .foregroundColor(item.isCompleted ? .secondary : .primary)
                             }
                         }
+                        //MARK: delete items in list
                         .onDelete { offsets in store.deleteItem(from: category.id, at: offsets) }
-                        // test to see if move works
+                        //MARK: move items in list function
                         
                         .onMove { offsets, destination in
                             store.moveItem(from: category.id, source: offsets, destination: destination)
                         }
                         
-                        // end move test
+                        
                     }
                     .listStyle(.sidebar)
                     .scrollContentBackground(.hidden)

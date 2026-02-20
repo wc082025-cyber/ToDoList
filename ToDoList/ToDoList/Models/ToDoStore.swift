@@ -7,8 +7,15 @@
 
 import Foundation
 import Combine
-import SwiftUI // Standard import is enough
+import SwiftUI 
+/*
+@ObserableObject is the owner. Tells other files it is watchable. @Obserable means "broadcasting tower" and has data other classes may want to watch
+ final (no copy rule) means no other class can inherit from. this is the final version of this blueprint,
 
+ ToDoStore: Obserableobject is like a radio station. broadcasting its code
+ @StateObject is the station manager who builds the station and turns on power
+ @observedObject is the listener
+ */
 final class ToDoStore: ObservableObject {
     @Published var categories: [ToDoCategory] = [] {
         didSet { save() }
@@ -25,18 +32,19 @@ final class ToDoStore: ObservableObject {
         }
     }
     
-    // MARK: - Category Helpers
+    // MARK: - Category Add
     func addCategory(title: String) {
         guard !title.trimmingCharacters(in: .whitespaces).isEmpty else { return }
         // Swift automatically uses UUID() for the id
         categories.append(ToDoCategory(title: title))
     }
+    // delete category
 
     func deleteCategory(at offsets: IndexSet) {
         categories.remove(atOffsets: offsets)
     }
 
-    // MARK: - Task Helpers
+    // MARK: - Add task
     func addTask(to categoryId: UUID, title: String) {
         guard !title.trimmingCharacters(in: .whitespaces).isEmpty else { return }
         if let index = categories.firstIndex(where: { $0.id == categoryId }) {
@@ -50,14 +58,14 @@ final class ToDoStore: ObservableObject {
             categories[catIndex].items[itemIndex].isCompleted.toggle()
         }
     }
-
+//delete task
     func deleteItem(from categoryId: UUID, at offsets: IndexSet) {
         if let index = categories.firstIndex(where: { $0.id == categoryId }) {
             categories[index].items.remove(atOffsets: offsets)
         }
     }
     
-    // Test to see if im retarded or not
+    //MARK: move task
     
     func moveItem(from categoryId: UUID, source: IndexSet, destination: Int) {
         if let index = categories.firstIndex(where: { $0.id == categoryId }) {
@@ -66,9 +74,9 @@ final class ToDoStore: ObservableObject {
         }
     }
     
-    // end test
+  
 
-    // MARK: - Persistence
+    // MARK: - Save
     private func save() {
         if let data = try? JSONEncoder().encode(categories) {
             UserDefaults.standard.set(data, forKey: storageKey)

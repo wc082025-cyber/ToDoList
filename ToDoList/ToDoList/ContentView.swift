@@ -9,6 +9,8 @@
  import SwiftUI
 
 struct ContentView: View {
+    // @state(Object) reference type data model within hierarchy
+    // @State is the "managers office" for data. gets data from ToDoStore
     @StateObject private var store = ToDoStore()
     @State private var showingAddCategorySheet = false
     @State private var newCategoryTitle = ""
