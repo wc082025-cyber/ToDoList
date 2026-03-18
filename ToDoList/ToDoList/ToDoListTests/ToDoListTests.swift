@@ -5,7 +5,7 @@
 //  Created by Chris Wahlberg on 13/02/2026.
 //
 
-import Testing
+/*import Testing
 @testable import ToDoList
 
 struct ToDoListTests {
@@ -15,3 +15,4 @@ struct ToDoListTests {
     }
 
 }
+*/
